@@ -27,7 +27,7 @@ interface RoomDocument extends DocumentData {
 function Sidebar() {
 
     const {user} = useUser()
-    const [data, loading, error] = useCollection(
+    const [data] = useCollection(
         user && (
             // cherche dans toutes les sous-collections nommées 'rooms' de toute la base Firestore et filtre les documents où userId est égal au premier email de l'utilisateur (converti en string)
             query(collectionGroup(db, 'rooms'), where('userId', '==', user.emailAddresses[0].toString()))
