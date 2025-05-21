@@ -21,8 +21,8 @@ function FollowPointer({x, y, info}:
         <motion.div
             className='h-4 w-4 rounded-full absolute z-50'
             style={{
-                top: x,
-                left: y,
+                top: y,
+                left: x,
                 pointerEvents: 'none',
             }}
             initial={{

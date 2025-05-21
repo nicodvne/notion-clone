@@ -29,6 +29,8 @@ function LiveCursorProvider({children}: {children: React.ReactNode}) {
             onPointerLeave={handlePointerLeave}
         >
             {
+                // Filtre les utilisateurs qui ont une position de curseur définie.
+                // Rend un composant FollowPointer pour afficher leur curseur à l'écran.
                 others
                     .filter((other) => other.presence.cursor !== null)
                     .map(({ connectionId, presence, info}) => (

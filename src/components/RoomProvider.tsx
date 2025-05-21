@@ -5,6 +5,7 @@ import {
     ClientSideSuspense
 } from "@liveblocks/react/suspense";
 import LoadingSpinner from "./LoadingSpinner";
+import LiveCursorProvider from "./LiveCursorProvider";
 
 function RoomProvider({roomId, children}: {roomId: string, children: React.ReactNode}) {
   return (
@@ -13,7 +14,7 @@ function RoomProvider({roomId, children}: {roomId: string, children: React.React
         initialPresence={{cursor: null}}
     >
         <ClientSideSuspense fallback={<LoadingSpinner />}>
-            {children}
+            <LiveCursorProvider>{children}</LiveCursorProvider>
         </ClientSideSuspense>
     </RoomProviderWrapper>
   )
