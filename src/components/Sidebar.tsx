@@ -27,7 +27,7 @@ interface RoomDocument extends DocumentData {
 function Sidebar() {
 
     const {user} = useUser()
-    const [data, loading, error] = useCollection(
+    const [data] = useCollection(
         user && (
             // cherche dans toutes les sous-collections nommées 'rooms' de toute la base Firestore et filtre les documents où userId est égal au premier email de l'utilisateur (converti en string)
             query(collectionGroup(db, 'rooms'), where('userId', '==', user.emailAddresses[0].toString()))
@@ -56,7 +56,6 @@ function Sidebar() {
             (acc, curr) => {
                 const roomData = curr.data() as RoomDocument;
 
-                console.log(curr.id);
                 if (roomData.role === "owner") {
                     acc.owner.push({
                         id: curr.id,
@@ -84,25 +83,37 @@ function Sidebar() {
         <>
             <NewDocumentButton />
             
-        <div className="flex py-4 flex-col space-y-4 md:max-w-36">
-           {/* My documents */}
-           {groupedData.owner.length === 0 ? (
-               <h2 className='text-gray-500 font-semibold text-sm'>
-                   No documents found
-               </h2>
-           ): (
-               <>
-                   <h2 className='text-gray-500 font-semibold text-sm'>
-                       My documents
-                   </h2>
-                   {groupedData.owner.map((doc) => (
-                       <SidebarOption key={doc.id} href={`/document/${doc.id}`} id={doc.id} />
-                   ))}
-               </>
-           )}
-           {/* List my documents */} 
-        </div>
+            <div className="flex py-4 flex-col space-y-4 md:max-w-36">
+            {/* My documents */}
+            {groupedData.owner.length === 0 ? (
+                <h2 className='text-gray-500 font-semibold text-sm'>
+                    No documents found
+                </h2>
+            ): (
+                <>
+                    <h2 className='text-gray-500 font-semibold text-sm'>
+                        My documents
+                    </h2>
+                    {groupedData.owner.map((doc) => (
+                        <SidebarOption key={doc.id} href={`/doc/${doc.id}`} id={doc.id} />
+                    ))}
+                </>
+            )}
+            {/* List my documents */} 
+            </div>
            {/* The shared documents */} 
+            { groupedData.owner.length > 0 && (
+                <>
+                    <h2 className='text-gray-500 font-semibold text-sm'>
+                        Shared with Me
+                    </h2>
+
+                    {groupedData.editor.map((doc) => (
+                        <SidebarOption key={doc.id} href={`/document/${doc.id}`} id={doc.id} />
+                    ))}
+                </>
+            ) }
+
            {/* List documents shared with me */} 
         </>
     )

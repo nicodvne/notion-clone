@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 function SidebarOption({href, id}: {href: string, id: string}) {
 
-    const [data, loading, error] = useDocumentData(doc(db, 'documents', id));
+    const [data] = useDocumentData(doc(db, 'documents', id));
 
     const pathname = usePathname();
     const isActive = href.includes(pathname) && pathname !== '/';
@@ -16,7 +16,7 @@ function SidebarOption({href, id}: {href: string, id: string}) {
 
     return (
         <Link href={href} className={`border p-2 rounded-md 
-        ${isActive ? 'bg-gray-300 font-bold, border-black' : 'border-gray-400'}`}>
+        ${isActive ? 'bg-gray-300 font-bold border-black' : 'border-gray-400'}`}>
             <p className='truncate'>{data.title}</p>
         </Link>
     )
